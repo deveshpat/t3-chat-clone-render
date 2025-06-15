@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: t3-chat-clone
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements_chainlit.txt
+    startCommand: chainlit run app.py --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: CHAINLIT_AUTH_SECRET
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.0 

@@ -1,0 +1,44 @@
+# T3 Chat Cloneathon - Dependencies
+# Core framework and AI integration
+chainlit>=1.0.0
+openai>=1.0.0
+
+# File processing and syntax highlighting
+pygments>=2.15.0
+pillow>=10.0.0
+PyPDF2>=3.0.0
+
+# Database and utilities (built-in to Python)
+# sqlite3 - built-in
+# json - built-in
+# uuid - built-in
+# re - built-in
+# datetime - built-in
+# asyncio - built-in
+# io - built-in
+# base64 - built-in
+
+# Additional dependencies for Django and channels
+Django==4.2.7
+channels==4.0.0
+channels-redis==4.1.0
+daphne==4.0.0
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+django-ratelimit==4.1.0
+celery==5.3.4
+redis==5.0.1
+tavily-python>=0.3.0
+Pillow==10.1.0
+PyPDF2==3.0.1
+beautifulsoup4>=4.12.0
+lxml==4.9.3
+pygments==2.17.2
+python-dotenv==1.0.0
+cryptography==41.0.8
+aiohttp>=3.8.0
+psycopg2-binary==2.9.9
+gunicorn==21.2.0
+whitenoise==6.6.0
+python-decouple==3.8
+os 

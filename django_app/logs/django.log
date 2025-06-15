@@ -1,0 +1,4 @@
+INFO 2025-06-15 07:00:12,218 autoreload 5667 8433001280 Watching for file changes with StatReloader
+INFO 2025-06-15 07:01:48,993 runserver 5667 6175436800 [mHTTP GET / 200 [0.01, 127.0.0.1:61852][0m
+WARNING 2025-06-15 07:01:49,339 log 5667 6209089536 Not Found: /favicon.ico
+WARNING 2025-06-15 07:01:49,339 runserver 5667 6175436800 [33mHTTP GET /favicon.ico 404 [0.01, 127.0.0.1:61852][0m

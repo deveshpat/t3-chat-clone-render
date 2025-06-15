@@ -1,0 +1,7 @@
+Django==5.2.3
+djangorestframework==3.16.0
+django-cors-headers==4.7.0
+channels==4.2.2
+asgiref==3.8.1
+openai
+tavily-python 
