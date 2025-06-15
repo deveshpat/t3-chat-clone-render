@@ -3,11 +3,7 @@ services:
     name: t3-chat-django
     env: python
     plan: free
-    buildCommand: |
-      pip install -r requirements_render.txt
-      python manage.py collectstatic --noinput --settings=config.settings_production
-      python manage.py migrate --settings=config.settings_production
-      python manage.py setup_t3_chat --settings=config.settings_production
+    buildCommand: ./build.sh
     startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DJANGO_SECRET_KEY
