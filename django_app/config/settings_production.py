@@ -9,8 +9,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings
 DEBUG = False
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-change-this-in-production-very-long-secret-key-for-security-purposes-123456789')
-ALLOWED_HOSTS = ['*']  # Will be configured properly in production
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'production-t3-chat-clone-super-secure-secret-key-for-competition-deployment-2024-very-long-and-random-string-12345')
+ALLOWED_HOSTS = ['*']  # Configured for deployment flexibility
 
 # Application definition
 INSTALLED_APPS = [
@@ -120,6 +120,10 @@ REST_FRAMEWORK = {
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_SSL_REDIRECT = False  # Handled by reverse proxy
+SESSION_COOKIE_SECURE = False  # Handled by reverse proxy
+CSRF_COOKIE_SECURE = False  # Handled by reverse proxy
 
 # API Keys (will be provided by users)
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')

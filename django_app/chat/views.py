@@ -683,3 +683,85 @@ def chat_interface(request):
     """
     from django.shortcuts import render
     return render(request, 'chat/index.html')
+
+def dashboard_view(request):
+    """
+    Performance dashboard view
+    """
+    from django.db.models import Count, Avg
+    from datetime import datetime, timedelta
+    
+    # Calculate metrics
+    total_conversations = Conversation.objects.count()
+    messages_today = Message.objects.filter(
+        created_at__gte=datetime.now() - timedelta(days=1)
+    ).count()
+    
+    # Active users (users with activity in last hour)
+    active_users = Conversation.objects.filter(
+        last_activity__gte=datetime.now() - timedelta(hours=1)
+    ).values('user_id').distinct().count()
+    
+    # Average response time
+    avg_response_time = Message.objects.filter(
+        response_time__isnull=False
+    ).aggregate(avg_time=Avg('response_time'))['avg_time']
+    
+    if avg_response_time:
+        avg_response_time = f"{avg_response_time:.1f}s"
+    else:
+        avg_response_time = "<1s"
+    
+    context = {
+        'total_conversations': total_conversations,
+        'messages_today': messages_today,
+        'active_users': active_users,
+        'avg_response_time': avg_response_time,
+    }
+    
+    return render(request, 'chat/dashboard.html', context)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def dashboard_metrics(request):
+    """
+    API endpoint for dashboard metrics
+    """
+    from django.db.models import Count, Avg
+    from datetime import datetime, timedelta
+    
+    try:
+        # Calculate real-time metrics
+        total_conversations = Conversation.objects.count()
+        messages_today = Message.objects.filter(
+            created_at__gte=datetime.now() - timedelta(days=1)
+        ).count()
+        
+        active_users = Conversation.objects.filter(
+            last_activity__gte=datetime.now() - timedelta(hours=1)
+        ).values('user_id').distinct().count()
+        
+        avg_response_time = Message.objects.filter(
+            response_time__isnull=False
+        ).aggregate(avg_time=Avg('response_time'))['avg_time']
+        
+        if avg_response_time:
+            avg_response_time = f"{avg_response_time:.1f}s"
+        else:
+            avg_response_time = "<1s"
+        
+        return Response({
+            'total_conversations': total_conversations,
+            'messages_today': messages_today,
+            'active_users': active_users,
+            'avg_response_time': avg_response_time,
+            'status': 'online',
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        logger.error(f"Dashboard metrics failed: {str(e)}")
+        return Response(
+            {'error': 'Failed to retrieve metrics'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
