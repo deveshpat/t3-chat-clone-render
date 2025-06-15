@@ -3,6 +3,7 @@ services:
     name: t3-chat-django
     env: python
     plan: free
+    rootDir: ./django_app
     buildCommand: |
       pip install -r requirements_render.txt
       python manage.py collectstatic --noinput
@@ -16,5 +17,5 @@ services:
         value: "False"
       - key: ALLOWED_HOSTS
         value: "*"
-      - key: PYTHON_VERSION
-        value: 3.11.0 
+      - key: DJANGO_SETTINGS_MODULE
+        value: "config.settings" 

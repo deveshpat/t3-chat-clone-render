@@ -47,28 +47,4 @@ LOGGING = {
         'handlers': ['console'],
         'level': 'INFO',
     },
-}
-
-# Media files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# Security settings for production
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = 'DENY'
-
-# CORS settings for API access
-CORS_ALLOWED_ORIGINS = [
-    "https://t3clone.pythonanywhere.com",
-]
-
-# Cache configuration (using dummy cache for simplicity)
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    }
-}
-
-# Remove channels middleware
-MIDDLEWARE = [mw for mw in MIDDLEWARE if 'channels.middleware' not in mw] 
+} 
