@@ -3,18 +3,34 @@ services:
     name: t3-chat-django
     env: python
     plan: free
+    rootDir: ./django_app
     buildCommand: |
-      pip install -r requirements_render.txt
-      python manage.py collectstatic --noinput
-      python manage.py migrate
-      python manage.py setup_t3_chat
+      pip install --upgrade pip
+      pip install -r ../requirements_render.txt
+      python manage.py collectstatic --noinput --settings=config.settings_production
+      python manage.py migrate --settings=config.settings_production
+      python manage.py shell --settings=config.settings_production -c "
+      from django.contrib.auth.models import User
+      try:
+          if not User.objects.filter(username='admin').exists():
+              User.objects.create_superuser('admin', 'admin@t3chat.com', 't3chat123')
+              print('✅ Admin user created')
+          if not User.objects.filter(username='demo').exists():
+              User.objects.create_user('demo', 'demo@t3chat.com', 'demo123')
+              print('✅ Demo user created')
+          if not User.objects.filter(username='judge').exists():
+              User.objects.create_user('judge', 'judge@t3chat.com', 'judge123')
+              print('✅ Judge user created')
+      except Exception as e:
+          print(f'⚠️ User creation error: {e}')
+      "
     startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DJANGO_SECRET_KEY
         generateValue: true
+      - key: DJANGO_SETTINGS_MODULE
+        value: "config.settings_production"
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
-        value: "*"
-      - key: PYTHON_VERSION
-        value: 3.11.0 
+        value: "*" 
